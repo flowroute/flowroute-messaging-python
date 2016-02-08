@@ -44,7 +44,7 @@ class Message(object):
         # Create a mapping from API property names to Model property names
         replace_names = {
             "to": "to",
-            "from": "mfrom",
+            "from_": "mfrom",
             "content": "content",
         }
 
