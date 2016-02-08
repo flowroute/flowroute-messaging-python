@@ -4,6 +4,7 @@
    FlowrouteMessagingLib.Controllers.APIController
 
    This file was automatically generated for flowroute by APIMATIC BETA v2.0 on 02/08/2016
+   Modified by Sean Hsieh on 02/08/2016
 """
 import unirest
 
@@ -26,7 +27,7 @@ class APIController(object):
         self.__username = username
         self.__password = password
 
-    def create_messages(self,
+    def create_message(self,
                         message):
         """Does a POST request to /messages.
 
