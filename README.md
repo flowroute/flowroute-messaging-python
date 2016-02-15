@@ -1,46 +1,66 @@
-Flowroute Messaging for Python
-=================
-This API SDK is built and managed by the Flowroute team.
+# flowroute-messaging-python
+## What is it?
 
-Due to the UniRest package dependency this SDK only works under Python 2.7
-It will not work using Python 3.x
+Flowroute-messaging-python is a Python SDK that provides methods for sending outbound SMSs with [Flowroute's](https://www.flowroute.com) API v2. These methods can be used to accomplish the following:
 
-How To Configure:
-=================
-The generated code needs to be configured with your API credentials. To do that,
-provide the credentials and configuration values as constructor parameters for the controllers.
+* Send outbound SMS
+* Retrieve MDRs (message detail records)
 
-    controller = APIController(username=YOUR_ACCESS_KEY, password=YOUR_API_SECRET_KEY)
+## Documentation 
+The full documentation for Flowroute's v2 API is available at [flowroute.readme.io](https://flowroute.readme.io/).
 
-How To Build: 
-=============
-The generated code uses Python libraries named UniRest and Jsonpickle. 
+## How To Install 
 
-PIP is a popular tool for managing python packages[1].
-To resolve these packages:
-1) From terminal/cmd navigate to the root directory
-2) Invoke 'pip install -r requirements.txt'
+The SDK uses the UniRest and Jsonpickle Python libraries, which will need to be installed before you can use the SDK. To install these packages, open a terminal session and execute the following commands
 
-Note: You will need internet access to resolve these dependencies.
+	cd flowroute-messaging-python/
+	pip install -r requirements.txt
 
-How To Use:
-===========
-The following shows how to make invoke the APIController controller.
-It is also shown in [2].
+> Note: You will need to be connected to the internet in order to install the required packages
+  
+## How To Get Setup
 
-    1. Create a "APIControllerTest.py" file in the root directory.
-    2. Add the following import statement 
-        'from FlowrouteMessagingLib.Controllers.APIController import *'
-    3. Create a new instance using 'controller = APIController()'
-    4. Invoke an endpoint with the appropriate parameters, for example
-        'response = controller.create_messages(<required parameters if any>)'
-    5. "response" will now be an object of type String.
+The following shows how to import the SDK and setup your API credentials.
 
-[1] PIP - https://pip.pypa.io
+1) Import the SDK module:
 
-[2] from FlowrouteMessagingLib.Controllers.APIController import *
+	from FlowrouteMessagingLib.Controllers.APIController import *
+	from FlowrouteMessagingLib.Models import *         
+   
+2) Configure your API Username and Password from [Flowroute Manager](https://manage.flowroute.com/accounts/preferences/beta/).
+ > If you do not have an API Key contact support@flowroute.com:
 
-	controller = APIController(username=YOUR_ACCESS_KEY, password=YOUR_API_SECRET_KEY)
-    response = controller.create_messages()
+	controller = APIController(username="TECH PREFIX", password="SECRET KEY")		
 
-    print response
+## List of Methods and Example Uses
+
+### APIController
+
+The APIController contains the methods neccesary to both send outbuond SMSs and to retrieve MDRs.
+
+#### create_message(self, message)
+
+The create_message method is used to send outbound messages from SMS enabled Flowroute numbers.
+
+| Parameter | Required | Usage                                                                                |
+|-----------|----------|--------------------------------------------------------------------------------------|
+| message   | True     | The message parameter that includes your To Number, From Number, and Message Content |
+
+##### Example Usage
+
+	msg = Message(to="15305557784", from_="18444205700", content="Mark it zero")
+	response = controller.create_message(msg)
+
+> In the msg variable we have to set the from number as "from_" because from is a reserved word in Python 
+	
+#### get_message_lookup(self, record_id)
+
+The get_message_lookup method is used to retrieve a MDR (message detail record).
+
+| Parameter | Required | Usage                                                 |
+|-----------|----------|-------------------------------------------------------|
+| recordId  | True     | The ID for the record that you would like to retrieve |
+
+##### Example Usage
+
+	response = controller.get_message_lookup("mdr1-fab29a740129404a8ca794efc1359e12")
