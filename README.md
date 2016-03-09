@@ -27,7 +27,7 @@ The following shows how to import the SDK and setup your API credentials.
 	from FlowrouteMessagingLib.Controllers.APIController import *
 	from FlowrouteMessagingLib.Models import *         
    
-2) Configure your API Username and Password from [Flowroute Manager](https://manage.flowroute.com/accounts/preferences/beta/).
+2) Configure your API Username and Password from [Flowroute Manager](https://manage.flowroute.com/accounts/preferences/api/).
  > If you do not have an API Key contact support@flowroute.com:
 
 	controller = APIController(username="TECH PREFIX", password="SECRET KEY")		
