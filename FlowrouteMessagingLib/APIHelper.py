@@ -276,7 +276,7 @@ class APIHelper:
 
         """
         # Check if the item also has to be resolved
-        if any(value is not None, hasattr(value, "resolve_names"),
+        if all(value is not None, hasattr(value, "resolve_names"),
                callable(getattr(value, "resolve_names"))):
             return value.resolve_names()
         else:
