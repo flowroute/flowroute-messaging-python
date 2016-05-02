@@ -2,14 +2,16 @@
 
 """
    FlowrouteMessagingLib.Models.Message
- 
-   This file was automatically generated for flowroute by APIMATIC BETA v2.0 on 02/08/2016
+
+   This file was automatically generated for flowroute
+   by APIMATIC BETA v2.0 on 02/08/2016
 """
 from FlowrouteMessagingLib.APIHelper import APIHelper
 
-class Message(object):
 
-    """Implementation of the 'Message' model.
+class Message(object):
+    """
+    Implementation of the 'Message' model.
 
     A simple message.
 
@@ -21,21 +23,7 @@ class Message(object):
 
     """
 
-    def __init__(self,
-                 **kwargs):
-        """Constructor for the Message class
-        
-        Args:
-            **kwargs: Keyword Arguments in order to initialise the
-                object. Any of the attributes in this object are able to
-                be set through the **kwargs of the constructor. The values
-                that can be supplied and their types are as follows::
-
-                    to -- string -- Sets the attribute to
-                    from -- string -- Sets the attribute mfrom
-                    content -- string -- Sets the attribute content
-        
-        """
+    def __init__(self, **kwargs):
         # Set all of the parameters to their default values
         self.to = None
         self.mfrom = None
@@ -56,16 +44,17 @@ class Message(object):
                     setattr(self, replace_names[key], kwargs[key])
 
     def resolve_names(self):
-        """Creates a dictionary representation of this object.
-        
+        """
+        Creates a dictionary representation of this object.
+
         This method converts an object to a dictionary that represents the
         format that the model should be in when passed into an API Request.
         Because of this, the generated dictionary may have different
         property names to that of the model itself.
-        
+
         Returns:
             dict: The dictionary representing the object.
-        
+
         """
         # Create a mapping from Model property names to API property names
         replace_names = {

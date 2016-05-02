@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-
 """
    FlowrouteMessagingLib.Controllers.APIController
 
-   This file was automatically generated for flowroute by APIMATIC BETA v2.0 on 02/08/2016
+   This file was automatically generated for flowroute
+   by APIMATIC BETA v2.0 on 02/08/2016
    Modified by Sean Hsieh on 02/08/2016
 """
 import unirest
@@ -14,22 +14,21 @@ from FlowrouteMessagingLib.APIException import APIException
 
 
 class APIController(object):
+    """
+    A Controller to access Endpoints in the FlowrouteMessagingLib API.
 
+    Args:
+        username (str): Username for authentication
+        password (str): password for authentication
+    """
 
-    """A Controller to access Endpoints in the FlowrouteMessagingLib API."""
-
-    def __init__(self,
-                 username,
-                 password):
-        """
-        Constructor with authentication and configuration parameters
-        """
+    def __init__(self, username, password):
         self.__username = username
         self.__password = password
 
-    def create_message(self,
-                        message):
-        """Does a POST request to /messages.
+    def create_message(self, message):
+        """
+        Does a POST request to /messages.
 
         Send a message
 
@@ -37,7 +36,7 @@ class APIController(object):
             message (Message): Message Object to send.
 
         Returns:
-            string: Response from the API. 
+            string: Response from the API.
 
         Raises:
             APIException: When an error occurs while fetching the data from
@@ -48,7 +47,7 @@ class APIController(object):
         """
         # The base uri for api requests
         query_builder = Configuration.BASE_URI
- 
+
         # Prepare query string for API call
         query_builder += "/messages"
 
@@ -57,14 +56,15 @@ class APIController(object):
 
         # Prepare headers
         headers = {
-
             "user-agent": "Flowroute Messaging SDK 1.0",
             "content-type": "application/json; charset=utf-8",
-
         }
 
         # Prepare and invoke the API call request to fetch the response
-        response = unirest.post(query_url, headers=headers,  params=APIHelper.json_serialize(message), auth=(self.__username, self.__password))
+        response = unirest.post(query_url,
+                                headers=headers,
+                                params=APIHelper.json_serialize(message),
+                                auth=(self.__username, self.__password))
 
         # Error handling using HTTP status codes
         if response.code == 401:
@@ -74,13 +74,14 @@ class APIController(object):
             raise APIException("FORBIDDEN", 403, response.body)
 
         elif response.code < 200 or response.code > 206:  # 200 = HTTP OK
-            raise APIException("HTTP Response Not OK", response.code, response.body)
-        
+            raise APIException("HTTP Response Not OK", response.code,
+                               response.body)
+
         return response.body
 
-    def get_message_lookup(self,
-                           record_id):
-        """Does a GET request to /messages/{record_id}.
+    def get_message_lookup(self, record_id):
+        """
+        Does a GET request to /messages/{record_id}.
 
         Lookup a Message by MDR
 
@@ -88,7 +89,7 @@ class APIController(object):
             record_id (string): Unique MDR ID
 
         Returns:
-            string: Response from the API. 
+            string: Response from the API.
 
         Raises:
             APIException: When an error occurs while fetching the data from
@@ -99,30 +100,31 @@ class APIController(object):
         """
         # The base uri for api requests
         query_builder = Configuration.BASE_URI
- 
+
         # Prepare query string for API call
         query_builder += "/messages/{record_id}"
 
         # Process optional template parameters
-        query_builder = APIHelper.append_url_with_template_parameters(query_builder, { 
-            "record_id": record_id
-        })
+        query_builder = APIHelper.append_url_with_template_parameters(
+            query_builder, {
+                "record_id": record_id,
+            })
 
         # Validate and preprocess url
         query_url = APIHelper.clean_url(query_builder)
 
         # Prepare headers
-        headers = {
-
-            "user-agent": "Flowroute Messaging SDK 1.0",
-
-        }
+        headers = {"user-agent": "Flowroute Messaging SDK 1.0", }
 
         # Prepare and invoke the API call request to fetch the response
-        response = unirest.get(query_url, headers=headers, params={}, auth=(self.__username, self.__password))
+        response = unirest.get(query_url,
+                               headers=headers,
+                               params={},
+                               auth=(self.__username, self.__password))
 
         # Error handling using HTTP status codes
         if response.code < 200 or response.code > 206:  # 200 = HTTP OK
-            raise APIException("HTTP Response Not OK", response.code, response.body) 
-    
+            raise APIException("HTTP Response Not OK", response.code,
+                               response.body)
+
         return response.body
