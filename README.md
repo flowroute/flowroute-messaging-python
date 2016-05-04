@@ -10,7 +10,7 @@ The full documentation for v2 of the Flowroute API is available [here](https://f
 
 ## Install the required libraries
 
-The SDK uses the UniRest and jsonpickle Python libraries, which must be installed before you can use the SDK. 
+The SDK uses the Unirest and jsonpickle Python libraries, which must be installed before you can use the SDK. 
 > **Note:** You must be connected to the Internet in order to install the required libraries.
 
 1. Open a terminal session. 
@@ -83,7 +83,8 @@ The following describe the parameters that compose the `Message` object:
 
 	`msg = Message(to="15305557784", from_="18444205700", content="This is the message content.")`
 	
-2. Next, run the following command, replacing `msg` with the variable you defined above:	
+2. Next, run the following command, replacing `msg` with the variable you defined above:
+	
 	`response = controller.create_message(msg)`
 	
 	The message is sent.
