@@ -1,7 +1,7 @@
 # flowroute-messaging-python
 ## What is it?
 
-**flowroute-messaging-python** is a Python SDK that provides methods to send an outbound SMS from a Flowroute phone number and also to retrieve a Message Detail Records (MDR). These methods use version 2 (**v2**) of the [Flowroute](https://www.flowroute.com") API.
+**flowroute-messaging-python** is a Python SDK that provides methods to send an outbound SMS from a Flowroute phone number and also to retrieve a Message Detail Records (MDR). These methods use **v2** (version 2) of the [Flowroute](https://www.flowroute.com") API.
 
 **Note:** This SDK does not cover searching for a set of MDRs based on a date range. For searching on a date range, see [Look up a Set of Messages](https://developer.flowroute.com/docs/lookup-a-set-of-messages) on the Flowroute Developer Portal.
 
@@ -11,6 +11,7 @@ The full documentation for v2 of the Flowroute API is available [here](https://f
 ## Install the required libraries
 
 The SDK uses the UniRest and jsonpickle Python libraries, which must be installed before you can use the SDK. 
+> **Note:** You must be connected to the Internet in order to install the required libraries.
 
 1. Open a terminal session. 
 2. Run the following two commands:
@@ -19,7 +20,6 @@ The SDK uses the UniRest and jsonpickle Python libraries, which must be installe
 	
 	`pip install -r requirements.txt`
 
-> **Note:** You must be connected to the Internet in order to install the required libraries.
   
 ## Import the SDK
 
@@ -27,15 +27,14 @@ The following describes how to import the Python SDK and set up your API credent
 
 >**Note:** If you do not have API credentials, contact <mailto:support@flowroute.com>.
 
-1. Run the following two commands to import the SDK module:
+1. From the **flowroute-messaging-python** folder, run the following two commands to import the SDK module:
 #####
-	`from FlowrouteMessagingLib.Controllers.APIController import *`
-	
-	`from FlowrouteMessagingLib.Models import *    `   
+	`from FlowrouteMessagingLib.Models.Message import Message`
+	`from FlowrouteMessagingLib.Controllers.APIController import APIController  `   
 
 2.  Type the following:
 	
-		`controller = APIController(username="Access Key", password="Secret Key")`
+		controller = APIController(username="Access Key", password="Secret Key")
 
 3.	Replace the `Access Key` and `Secret Key` values within the quotes (" ") with your own Access Key and Secret Key, and then press ENTER.
 
@@ -66,7 +65,7 @@ The `create_message` function is used to send outbound messages from SMS-enabled
 
 | Parameter | Required | Usage                                                                                |
 |-----------|----------|-------------------------------------------------------------------------------|
-| `msg`   | True     | The message object, composed of `Message`, described below.  
+| `msg`   | True     | The message variable, which is composed of the `Message` model, described below. You can name this variable according to your needs. There is no limit on the text length. For this SDK, `msg` will be used. 
 
 #####`Message` parameters
 The following describe the parameters that compose the `Message` object:
@@ -79,19 +78,18 @@ The following describe the parameters that compose the `Message` object:
 
 ###### Example usage
 
-1. Run the following, replacing the `to`, `from_number`, and `content` variables within the quotes with your own values:
+1. Run the following, replacing the `msg`, `to`, `from_number`, and `content` variables with your own values:
 
-	`msg = Message(to="15305557784", from_="18444205700", content="This is message content.")`
+	`msg = Message(to="15305557784", from_="18444205700", content="This is the message content.")`
 	
-2. Next, run the following command:	
-
+2. Next, run the following command, replacing `msg` with the variable you defined above:	
 	`response = controller.create_message(msg)`
 	
 	The message is sent.
 
 ###### Example response
 
-No response is returned for a sent message. Error messages can be returned, however. 
+No response is returned for a sent message. Response error messages can be returned, however. 
 
 ##### Retrieve the message identifier
 
@@ -166,7 +164,7 @@ The `get_message_lookup` method is used to retrieve an MDR by passing the record
 |  |`message_type`: Indicates the type of message, either `long-code` or `toll-free`. If the message was sent to or received from another phone number, this field displays `long-code`; if sent to or received from a toll-free number, this field displays `toll-free`.|
 |`type`| Defines what the object is. Because SMS is the only supported object type, this field will always display `message`.|
 |`id` | The unique record identifier of a sent message, generated from a successful `create_message`.|
-                          
+                        
 
 #####Error response
 The following error can be returned:
