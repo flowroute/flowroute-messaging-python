@@ -3,7 +3,7 @@
 
 **flowroute-messaging-python** is a Python SDK that provides methods to send an outbound SMS from a Flowroute phone number and also to retrieve a Message Detail Records (MDR). These methods use **v2** (version 2) of the [Flowroute](https://www.flowroute.com") API.
 
-**Note:** This SDK does not cover searching for a set of MDRs based on a date range. For searching on a date range, see [Look up a Set of Messages]<https://developer.flowroute.com/docs/lookup-a-set-of-messages){:target="_blank"} Look up a Set of Messages on the Flowroute Developer Portal.
+**Note:** This SDK does not cover searching for a set of MDRs based on a date range. For searching on a date range, see [Look up a Set of Messages](https://developer.flowroute.com/docs/lookup-a-set-of-messages) on the Flowroute Developer Portal.
 
 ## Documentation 
 The full documentation for v2 of the Flowroute API is available [here](https://flowroute.readme.io/).
