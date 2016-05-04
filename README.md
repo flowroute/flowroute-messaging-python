@@ -30,6 +30,7 @@ The following describes how to import the Python SDK and set up your API credent
 1. From the **flowroute-messaging-python** folder, run the following two commands to import the SDK module:
 #####
 	`from FlowrouteMessagingLib.Models.Message import Message`
+	
 	`from FlowrouteMessagingLib.Controllers.APIController import APIController  `   
 
 2.  Type the following:
