@@ -1,5 +1,5 @@
 # flowroute-messaging-python
-## What is it?
+## About the flowroute-messaging-python SDK
 
 **flowroute-messaging-python** is a Python SDK that provides methods to send an outbound SMS from a Flowroute phone number and also to retrieve a Message Detail Records (MDR). These methods use **v2** (version 2) of the [Flowroute](https://www.flowroute.com") API.
 
@@ -10,16 +10,27 @@ The full documentation for v2 of the Flowroute API is available [here](https://f
 
 ## Install the required libraries
 
-The SDK uses the Unirest and jsonpickle Python libraries, which must be installed before you can use the SDK. 
+The SDK uses the **Unirest** and **jsonpickle** Python libraries, which must be installed before you can use the SDK. 
+
 > **Note:** You must be connected to the Internet in order to install the required libraries.
 
 1. Open a terminal session. 
-2. Run the following two commands:
-#####
-	`cd flowroute-messaging-python/`
-	
+
+2. If needed, create a parent directory folder where you want to install the SDK.
+ 
+3. Go to the newly created folder, and run the following:
+
+ 	`git clone https://github.com/flowroute/flowroute-messaging-python.git`
+ 	
+ 	The `git clone` command clones the **flowroute-messaging-python** respository as a sub directory within the parent folder.
+ 	
+4.	Change directories to the newly created **flowroute-messaging-python** directory.
+
+5.	Run the following:
+
 	`pip install -r requirements.txt`
 
+6.	Import the SDK.
   
 ## Import the SDK
 
@@ -27,17 +38,19 @@ The following describes how to import the Python SDK and set up your API credent
 
 >**Note:** If you do not have API credentials, contact <mailto:support@flowroute.com>.
 
-1. From the **flowroute-messaging-python** folder, run the following two commands to import the SDK module:
-#####
+1. From the **flowroute-messaging-python** directory, run
+
+	`python`
+		
+2.	At the `>>>` prompt run the following import commands:
+
 	`from FlowrouteMessagingLib.Models.Message import Message`
 	
 	`from FlowrouteMessagingLib.Controllers.APIController import APIController  `   
 
-2.  Type the following:
+2.  Run the following, replacing the *`Access Key`* and *`Secret Key`* values within the quotes (`""`) with your own Access Key and Secret Key:
 	
 		controller = APIController(username="Access Key", password="Secret Key")
-
-3.	Replace the `Access Key` and `Secret Key` values within the quotes (" ") with your own Access Key and Secret Key, and then press ENTER.
 
 	The SDK is imported.
 
@@ -58,15 +71,15 @@ The URLs for the send a message and retrieve message details endpoints are:
 
 ##### <font color="blue">`create_message(self, message)`</font>
 
-The `create_message` function is used to send outbound messages from SMS-enabled Flowroute numbers, formatted as follows:
+The `create_message` function is used to send outbound messages from an SMS-enabled Flowroute number, formatted as follows:
 
 	msg = Message(to="to_number", from_="from_number", content="message_body")
 	
- It is composed of the following object:
+ It is composed of the following variable:
 
 | Parameter | Required | Usage                                                                                |
 |-----------|----------|-------------------------------------------------------------------------------|
-| `msg`   | True     | The message variable, which is composed of the `Message` model, described below. You can name this variable according to your needs. There is no limit on the text length. For this SDK, `msg` will be used. 
+| *`msg`*   | True     | The message variable, which is composed of the `Message` model, described below. The variable can have any name, and there is no limit on the length. For this SDK, `msg` will be used. 
 
 #####`Message` parameters
 The following describe the parameters that compose the `Message` object:
@@ -83,7 +96,7 @@ The following describe the parameters that compose the `Message` object:
 
 	`msg = Message(to="15305557784", from_="18444205700", content="This is the message content.")`
 	
-2. Next, run the following command, replacing `msg` with the variable you defined above:
+2. Next, run the following command, replacing *`msg`* with the variable you defined above:
 	
 	`response = controller.create_message(msg)`
 	
