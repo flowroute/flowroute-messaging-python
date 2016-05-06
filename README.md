@@ -48,7 +48,7 @@ The following describes how to import the Python SDK and set up your API credent
 	
 	`from FlowrouteMessagingLib.Controllers.APIController import APIController  `   
 
-2.  Run the following, replacing the *`Access Key`* and *`Secret Key`* values within the quotes (`""`) with your own Access Key and Secret Key:
+2.  Run the following, replacing the *`Access Key`* and *`Secret Key`* variables within the quotes (`""`) with your own Access Key and Secret Key:
 	
 		controller = APIController(username="Access Key", password="Secret Key")
 
@@ -79,7 +79,7 @@ The `create_message` function is used to send outbound messages from an SMS-enab
 
 | Parameter | Required | Usage                                                                                |
 |-----------|----------|-------------------------------------------------------------------------------|
-| *`msg`*   | True     | The message variable, which is composed of the `Message` model, described below. The variable can have any name, and there is no limit on the length. For this SDK, `msg` will be used. 
+| *`msg`*   | True     | The message variable, which is composed of the `Message` model, described below. The variable can have any name, and there is no limit on the length. </br>For this method, `msg` will be used. 
 
 #####`Message` parameters
 The following describe the parameters that compose the `Message` object:
@@ -87,7 +87,7 @@ The following describe the parameters that compose the `Message` object:
 | Parameter | Required | Usage                                                                            |
 |----------|----------|-----------------------------------------------------------------------------|
 | `to`     | True     | Target phone number for the message. Must use an _1NPANXXXXXX_ E.164 format. | 
-|`from_`|True|Source phone number. It must be a number registered with Flowroute, must be SMS-enabled, and must use an _1NPANXXXXXX_ E.164 format. **Note:** Because `from` is a word reserved by Python, Flowroute uses `from_` in the `Message` object. |
+|`from_`|True|Source phone number. It must be a number registered with Flowroute, must be SMS-enabled, and must use an _1NPANXXXXXX_ E.164 format.</br> **Note:** Because `from` is a word reserved by Python, Flowroute uses `from_` in the `Message` object. |
 | `content`| True     | The message itself. An unlimited number of characters can be used, but message length rules and encoding apply. See [Message Length & Concatenation](https://developer.flowroute.com/docs/message-length-concatenation) for more information. | 
 
 ###### Example usage
@@ -165,18 +165,7 @@ The `get_message_lookup` method is used to retrieve an MDR by passing the record
 |-----------|----------|-------------------------------------------------------|
 | `data`  | Object composed of `attributes`, `type`, and `id`. |
 |`attributes`    |Object composed of the following:
-|  |`body`: The content of the message.|
-|  |`direction`:  The direction of the message. For a sent message, this is `outbound`. For a received message this is`inbound`.|
-|  |`amount_nanodollars`: The cost of the message in nanodollars. Because Flowroute uses eight decimal points of precision, the amount in nanodollars is the USD `amount_display` value multipled by 100,000,000 (one hundred million) for a corresponding whole number.
-|  |`message_encoding`: Indicates the encoding type, which will be either `0` (UTF-8) or `8` (UCS-2). See [Message Length & Concatenation](https://developer.flowroute.com/docs/message-length-concatenation) for more information.| 
-|  |`timestamp`: Date and time, to the second, on which the message was sent. This field displays UTC time using an ISO 8601 format.|
-|  |`to`: The phone number to which the message was sent.
-|  |`has_mms`: Boolean indicating whether or not the message includes a multimedia file. `true` indicates yes, while `false` indicates no. Currently, MMS is not supported; therefore, the default value for this field will always be `false`.
-|  |`amount_display`: The total cost of the message in USD. If a message was broken into multiple pieces due to concatenation, this amount will be the total amount for all message pieces. This field does _not_ display out to eight decimal points. See _Message cost_ in [Message Length & Concatenation](https://developer.flowroute.com/docs/message-length-concatenation) for more information.|
-|  |`from`: The Flowroute SMS-enabled number from which the message was sent.|
-|  |`callback_URL`The callback URL defined for the Flowroute number on the [Preferences > API Control](https://manage.flowroute.com/accounts/preferences/api/) page, the URL appears in this field; otherwise, the value is `null`.|
-|  |`type`: Defines what the object is. Because SMS is the only supported object type, this field will always display `messages`.|
-|  |`message_type`: Indicates the type of message, either `long-code` or `toll-free`. If the message was sent to or received from another phone number, this field displays `long-code`; if sent to or received from a toll-free number, this field displays `toll-free`.|
+|  | <ul><li>`body`: The content of the message.<li>`direction`:  The direction of the message. For a sent message, this is `outbound`. For a received message this is`inbound`.<li>`amount_nanodollars`: The cost of the message in nanodollars. Because Flowroute uses eight decimal points of precision, the amount in nanodollars is the USD`amount_display` value multipled by 100,000,000 (one hundred million) for a corresponding whole number. <li>`message_encoding`: Indicates the encoding type, which will be either `0` (UTF-8) or `8` (UCS-2). See [Message Length & Concatenation](https://developer.flowroute.com/docs/message-length-concatenation) for more information. <li>`timestamp`: Date and time, to the second, on which the message was sent. This field displays UTC time using an ISO 8601 format. <li>`to`: The phone number to which the message was sent. <li>`has_mms`: Boolean indicating whether or not the message includes a multimedia file. `true` indicates yes, while `false` indicates no. Currently, MMS is not supported; therefore, the default value for this field will always be `false`. <li>`amount_display`: The total cost of the message in USD. If a message was broken into multiple pieces due to concatenation, this amount will be the total amount for all message pieces. This field does _not_ display out to eight decimal points. See _Message cost_ in [Message Length & Concatenation](https://developer.flowroute.com/docs/message-length-concatenation) for more information. <li>`from`: The Flowroute SMS-enabled number from which the message was sent.<li>`callback_URL`The callback URL defined for the Flowroute number on the [Preferences > API Control](https://manage.flowroute.com/accounts/preferences/api/) page, the URL appears in this field; otherwise, the value is `null`. <li> `type`: Defines what the object is. Because SMS is the only supported object type, this field will always display `messages`. <li>`message_type`: Indicates the type of message, either `long-code` or `toll-free`. If the message was sent to or received from another phone number, this field displays `long-code`; if sent to or received from a toll-free number, this field displays `toll-free`. </li></ul>| 
 |`type`| Defines what the object is. Because SMS is the only supported object type, this field will always display `message`.|
 |`id` | The unique record identifier of a sent message, generated from a successful `create_message`.|
                         
