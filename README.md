@@ -6,7 +6,7 @@
 **Note:** This SDK does not cover searching for a set of MDRs based on a date range. For searching on a date range, see [Look up a Set of Messages](https://developer.flowroute.com/docs/lookup-a-set-of-messages) on the Flowroute Developer Portal.
 
 ## Documentation 
-The full documentation for v2 of the Flowroute API is available [here](https://flowroute.readme.io/).
+The full documentation for v2 of the Flowroute API is available [here](https://developer.flowroute.com/v2.0/docs).
 
 ## Install the required libraries
 
@@ -66,8 +66,8 @@ The following sections describe the use of the APIController and its two functio
 #### Definitions
 The URLs for the send a message and retrieve message details endpoints are:
 
-* Send a message: https://api.flowroute.com/v2/messages
-* Retrieve message details: https://api.flowroute.com/v2/messages/:record_id
+* Send a message: `https://api.flowroute.com/v2/messages`
+* Retrieve message details:` https://api.flowroute.com/v2/messages/:record_id`
 
 ##### <font color="blue">`create_message(self, message)`</font>
 
@@ -78,7 +78,7 @@ The `create_message` function is used to send outbound messages from an SMS-enab
  It is composed of the following variable:
 
 | Parameter | Required | Usage                                                                                |
-|-----------|----------|-------------------------------------------------------------------------------|
+|-----------|----------|---------------------------------------------------------------|
 | *`msg`*   | True     | The message variable, which is composed of the `Message` model, described below. The variable can have any name, and there is no limit on the length. </br>For this method, `msg` will be used. 
 
 #####`Message` parameters
