@@ -2,8 +2,7 @@
 """
    FlowrouteMessagingLib.APIHelper
 
-   This file was automatically generated for flowroute
-   by APIMATIC BETA v2.0 on 02/08/2016
+    Copyright Flowroute, Inc. 2016
 """
 import jsonpickle
 import re
@@ -177,7 +176,6 @@ class APIHelper:
         query_url = re.sub("//+", "/", query_url)
 
         return protocol + query_url
-        return query_url
 
     @classmethod
     def form_encode(cls, obj, instanceName):
