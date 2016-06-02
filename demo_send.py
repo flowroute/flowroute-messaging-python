@@ -2,7 +2,7 @@
 demo.py
 
 flowroute-messaging-python is a Python SDK that provides methods to send an outbound SMS from a Flowroute phone number
-and also to retrieve a Message Detail Records (MDR). These methods use v2 (version 2) of the Flowroute API.
+and also to retrieve a Message Detail Record (MDR). These methods use v2 (version 2) of the Flowroute API.
 
 Copyright Flowroute, Inc.  2016
 
@@ -12,24 +12,24 @@ from FlowrouteMessagingLib.Models.Message import *
 
 import pprint
 
-# Setup your api credentials
-# Please replace the variables in the Configuration.php with your information.
+# Set up your API credentials
+# Please replace the variables in Configuration.php with your information.
 username = 'ACCESS_KEY'
 password = 'SECRET_KEY'
 
 # -- Demo script
 print "Flowroute, Inc - Demo SMS Python script.\n"
 
-# Create a controller
+# Create the Controller
 controller = APIController(username=username, password=password)
 pprint.pprint(controller)
 
-# Build our message
+# Build your message
 from_number = 'FROM_PHONE_NUMBER_E164'
 to_number = 'TO_PHONE_NUMBER_E164'
 message = Message(to=to_number, from_=from_number, content='Your cool new SMS message here!')
 
-# Send the message
+# Send your message
 try:
     response = controller.create_message(message)
     pprint.pprint(response)
@@ -38,7 +38,7 @@ except APIException as e:
     pprint.pprint(e.response_body['errors'])
     raise SystemExit        # can't continue from here
 
-# get the mdr id from the response
+# Get the MDR id from the response
 mdr_id = response['data']['id']
 
 # Retrieve the MDR record
