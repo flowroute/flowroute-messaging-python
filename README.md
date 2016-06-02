@@ -3,10 +3,22 @@
 
 **flowroute-messaging-python** is a Python SDK that provides methods to send an outbound SMS from a Flowroute phone number and also to retrieve a Message Detail Records (MDR). These methods use **v2** (version 2) of the [Flowroute](https://www.flowroute.com) API.
 
-**Note:** This SDK does not cover searching for a set of MDRs based on a date range. For searching on a date range, see [Look up a Set of Messages](https://developer.flowroute.com/docs/lookup-a-set-of-messages) on the Flowroute Developer Portal.
+>**Note:** This SDK does not cover searching for a set of MDRs based on a date range. For searching on a date range, see [Look up a Set of Messages](https://developer.flowroute.com/docs/lookup-a-set-of-messages) on the Flowroute Developer Portal.
 
 ## Documentation 
 The full documentation for v2 of the Flowroute API is available [here](https://developer.flowroute.com/v2.0/docs).
+
+##Before you begin
+
+The following are required before you can deploy the SDK.
+
+### Have your API credentials
+
+You will need your Flowroute API credentials (Access Key and Secret Key). These can be found on the **Preferences > API Control** page of the [Flowroute](https://manage.flowroute.com/accounts/preferences/api/) portal. If you do not have API credentials, contact <mailto:support@flowroute.com>.
+
+### Know your Flowroute phone number
+
+To create and send a message, you will need your Flowroute phone number, which should be enabled for SMS. If you do not know your phone number, or if you need to verify whether or not it is enabled for SMS, you can find it on the [DIDs](https://manage.flowroute.com/accounts/dids/) page of the Flowroute portal.
 
 ## Install the required libraries
 
@@ -22,7 +34,7 @@ The SDK uses the **Unirest** and **jsonpickle** Python libraries, which must be 
 
  	`git clone https://github.com/flowroute/flowroute-messaging-python.git`
  	
- 	The `git clone` command clones the **flowroute-messaging-python** respository as a sub directory within the parent folder.
+ 	The `git clone` command clones the **flowroute-messaging-python** repository as a sub directory within the parent folder.
  	
 4.	Change directories to the newly created **flowroute-messaging-python** directory.
 
@@ -32,113 +44,173 @@ The SDK uses the **Unirest** and **jsonpickle** Python libraries, which must be 
 
 6.	Import the SDK.
   
-## Import the SDK
+## Create a script to import the SDK and send a message
 
-The following describes how to import the Python SDK and set up your API credentials. Before you start, you should have your API credentials (Access Key and Secret Key). These can be found on the **Preferences > API Control** page of the [Flowroute](https://manage.flowroute.com/accounts/preferences/api/) portal.
+Importing the SDK requires that you run commands either by creating and running a script or through a shell. The following instructions describe importing the SDK and running the `APIController` by creating and running a script.
 
->**Note:** If you do not have API credentials, contact <mailto:support@flowroute.com>.
+>**Note:** A **demo_send.py** file is located at the top-level of the **flowroute-messaging-python** directory. Instead of creating a new file, you can modify **demo_send.py** and use that file. 
 
-1. From the **flowroute-messaging-python** directory, run
+1.	Using a code text editor — for example, *Sublime Text* — to create a new file.
 
-	`python`
+2.	Add the following lines to the top of the file:
+
+		from FlowrouteMessagingLib.Models.Message import Message
+		from FlowrouteMessagingLib.Controllers.APIController import APIController
 		
-2.	At the `>>>` prompt run the following import commands:
+3.	Add the lines to instantiate the controller:
 
-	`from FlowrouteMessagingLib.Models.Message import Message`
+		controller = APIController(username="Access Key", password="Secret Key")   
+
+4.	Replace `Access Key` and `Secret Key` with your own Access Key and Secret Key.
+
+5.	Add the following line, which creates the message.
 	
-	`from FlowrouteMessagingLib.Controllers.APIController import APIController  `   
+		msg = Message(to="To Phone Number", from_="From Phone Number", content="Message Content.")
 
-2.  Run the following, replacing the *`Access Key`* and *`Secret Key`* variables within the quotes (`""`) with your own Access Key and Secret Key:
+6.	Replace the following:
 	
-		controller = APIController(username="Access Key", password="Secret Key")
+	*	`To Phone Number` with the recipient's phone number.
+	* 	`From Phone Number` with your Flowroute phone number.
+	*  `Message Content` with the message you want to send to the recipient.
+	
+	  >**NOTE:** See [`create_message`](#createmessage) for more information about parameters and allowed values.
 
-	The SDK is imported.
+6.	Next add the following line, which sends the message:
 
-You can now use the APIController to send an SMS or retrieve the details of a sent message.
+		response = controller.create_message(msg)
 
+7.	Optionally, if you want the script to return the message identifier on sending, add the following line:
+
+		print response 
+	
+	>**Note:** The message identifier is required when running the [`get_message_lookup`](#getmessage) method.
+
+	Your file should now resemble the following:
+	
+		#Import the Flowroute Messaging SDK (Python)
+		from FlowrouteMessagingLib.Models.Message import Message
+		from FlowrouteMessagingLib.Controllers.APIController import APIController  
+		
+		#Set your credentials
+		controller = APIController(username="12345678", password="m8axLA45yds7k22448aOQ7BshaADg6vr")
+		
+		#Create the message
+		msg = Message(to="15305557784", from_="18444205700", content="You should be working, not surfing.")
+		
+		#Send the message
+		response = controller.create_message(msg)
+		
+		#Print the response
+		print response	
+
+8.	Save the file with a **.py** extension in the top-level **flowroute-messaging-python** directory. For this example, the file is named **createmsg.py**.
+
+9.	From the **flowroute-messaging-python** directory in a terminal window, run the file, as shown in the following example:
+
+		python createmsg.py
+		
+	The script executes, and the message is sent. See [Response messages](#send_rsp) for possible response messages.
+ 
 ## APIController
 
-The APIController contains the functions required to send outbound SMS texts and to retrieve MDRs.
+The APIController contains the functions required to send outbound SMS texts and to retrieve MDRs. 
+The following sections describe the use of the APIController and its two functions:
 
-### Methods 
-The following sections describe the use of the APIController and its two functions,` create_message ` and `get_message_lookup`. 
+*	`create_message ` 
+* 	`get_message_lookup` 
 
-#### Definitions
-The URLs for the send a message and retrieve message details endpoints are:
-
-* Send a message: `https://api.flowroute.com/v2/messages`
-* Retrieve message details:` https://api.flowroute.com/v2/messages/:record_id`
-
-##### <font color="blue">`create_message(self, message)`</font>
+###`create_message`<a name=createmessage></a>
 
 The `create_message` function is used to send outbound messages from an SMS-enabled Flowroute number, formatted as follows:
 
-	msg = Message(to="to_number", from_="from_number", content="message_body")
+####Usage
+
+	msg = Message(to="To Phone Number", from_="From Phone Number", content="Message Content")
 	
- It is composed of the following variable:
+ It is composed of the following variables:
 
-| Parameter | Required | Usage                                                                                |
-|-----------|----------|---------------------------------------------------------------|
-| *`msg`*   | True     | The message variable, which is composed of the `Message` model, described below. The variable can have any name, and there is no limit on the length. </br>For this method, `msg` will be used. 
+| Parameter | Required | Type | Description                                                                                |
+|-----------|----------|--------------|--------------------------------------------|
+| `msg`   | True     |  string      | The message variable. The variable can have any name, and there is no limit on the length. </br>For this example, `msg` is used. 
+| `To Phone Number`     | True   | string  |Target phone number for the message. It must use an _1NPANXXXXXX_ E.164 format.| 
+|`From Phone Number`|True| string| Source phone number. It must be a number registered with Flowroute, must be SMS-enabled, and must use an _1NPANXXXXXX_ E.164 format. |
+| `Message Content`| True     | string   |The message itself. An unlimited number of characters can be used, but message length rules and encoding apply. See [Message Length & Concatenation](https://developer.flowroute.com/docs/message-length-concatenation) for more information. | 
 
-#####`Message` parameters
-The following describe the parameters that compose the `Message` object:
+##### Example response
 
-| Parameter | Required | Usage                                                                            |
-|----------|----------|-----------------------------------------------------------------------------|
-| `to`     | True     | Target phone number for the message. Must use an _1NPANXXXXXX_ E.164 format. | 
-|`from_`|True|Source phone number. It must be a number registered with Flowroute, must be SMS-enabled, and must use an _1NPANXXXXXX_ E.164 format.</br> **Note:** Because `from` is a word reserved by Python, Flowroute uses `from_` in the `Message` object. |
-| `content`| True     | The message itself. An unlimited number of characters can be used, but message length rules and encoding apply. See [Message Length & Concatenation](https://developer.flowroute.com/docs/message-length-concatenation) for more information. | 
+*	If you did *not* add `print response` to the file, no response is returned for a sent message; however, if an error is encountered an [error code and message](#errorresp) are returned.
 
-###### Example usage
+*	If you added `print response` to the file, the identifier is returned in the response. Note it down. You can later pass this in the [`get_message_lookup`](#getmessage) method to retrieve the MDR. For example, 
 
-1. Run the following, replacing the `msg`, `to`, `from_number`, and `content` variables with your own values:
+		{"data": {"id": "mdr1-fab29a740129404a8ca794efc1359e12'}}
 
-	`msg = Message(to="15305557784", from_="18444205700", content="This is the message content.")`
-	
-2. Next, run the following command, replacing *`msg`* with the variable you defined above:
-	
-	`response = controller.create_message(msg)`
-	
-	The message is sent.
-
-###### Example response
-
-No response is returned for a sent message. Response error messages can be returned, however. 
-
-##### Retrieve the message identifier
-
-To get details about a sent message, use the `get_message_lookup` method, described [below](#getmessage). Before running `get_message_lookup`, however, you must first get the identifier for that message. 
-
-* Run the following:
-
-	`print response`
-	
-The response returns a record containing the message identifier (`id`), as shown in the following example JSON response:
-
-	{"data": {"id": "mdr1-fab29a740129404a8ca794efc1359e12'}}
-
-#####Error response
+#####Error response<a name=errorresp></a>
 The following table describes the possible `create_message` error codes and messages that can be returned:
 
 | Error code | Message | Description                                                 |
 |-------|----------|-------------------------------------------------------|
 |`401`   |UNAUTHORIZED|The API credentials are incorrect.
 |`403`  | FORBIDDEN  | The `from` number is not authorized.|
-	
-##### <font color="blue">`get_message_lookup(self, record_id)`</font> <a name="getmessage"></a>
+  	
+### `get_message_lookup` <a name="getmessage"></a>
 
 The `get_message_lookup` method is used to retrieve an MDR by passing the record identifier of a previously sent message.
 
-| Parameter | Required | Usage                                                 |
-|-----------|----------|-------------------------------------------------------|
-| `id`      | True     | The identifier of an existing record to retrieve. The value should include the`mdr1-`prefix. |
+####Usage
 
-###### Example usage
+1.	Add the following lines to your Python file before `print response`:
 
+		#Get the MDR
+		response = controller.get_message_lookup("Record Identifier")
+	
+	It is composed of the following parameter:
+
+	| Parameter | Required | Type  | Description                                        |
+|-----------|----------|--------|-----------------------------------------------|
+| `Record Identifier`      | True     | string  |The identifier of an existing record to retrieve. The value should include the`mdr1-`prefix. |
+
+
+2.	Because you do not want to create a new message record, comment out the following lines:
+
+		# msg = Message(to="To Phone Number", from_="From Phone Number", content="Message Content.")
+		# response = controller.create_message(msg)
+		# response = controller.get_message_lookup("Record identifier")
+
+3.	From the **flowroute-messaging-python** directory in a terminal window, run the file, as shown in the following example:
+
+		python createmsg.py
+		
+	The script executes, and the MDR is returned. See the [example response](#getmdr).
+	
+##### Example usage
+
+Your file should resemble the following:
+
+	Import the Flowroute Messaging SDK (Python)
+	from FlowrouteMessagingLib.Models.Message import Message
+	from FlowrouteMessagingLib.Controllers.APIController import APIController  
+	
+	Set your credentials
+	controller = APIController(username="Access Key", password="Secret Key")
+	
+	# Create the message
+	# msg = Message(to="15305557784", from_="18444205700", content="You should be working, not surfing.")
+	
+	# Send the message
+	# response = controller.create_message(msg)
+	
+	# Look up the MDR
+	# response = controller.get_message_lookup("Record identifier")
+	
+	# Look up the MDR
 	response = controller.get_message_lookup("mdr1-fab29a740129404a8ca794efc1359e12")
-###### Example response
-> **Note:** The following shows a sample formatted response. It is formatted only to more easily identify the fields returned in the response.
+	
+	# Print the response
+	print response
+
+##### Example response<a name=getmdr></a>
+
+> **Note:** The following shows a sample formatted response and is intended only to more easily identify the fields returned in the response.
 
 	{
   	"data": {
@@ -152,8 +224,7 @@ The `get_message_lookup` method is used to retrieve an MDR by passing the record
     	  "to": "15305557784",
     	  "amount_display": "$0.0040",
     	  "from": "18444205700",
-   		  "callback_url": null,
-     	  "type": "messages",
+   		  "callback_url": None,
     	  "message_type": "long-code"
    		            },
    	  "type": "message",
@@ -165,7 +236,7 @@ The `get_message_lookup` method is used to retrieve an MDR by passing the record
 |-----------|----------|-------------------------------------------------------|
 | `data`  | Object composed of `attributes`, `type`, and `id`. |
 |`attributes`    |Object composed of the following:
-|  | <ul><li>`body`: The content of the message.<li>`direction`:  The direction of the message. For a sent message, this is `outbound`. For a received message this is`inbound`.<li>`amount_nanodollars`: The cost of the message in nanodollars. Because Flowroute uses eight decimal points of precision, the amount in nanodollars is the USD`amount_display` value multipled by 100,000,000 (one hundred million) for a corresponding whole number. <li>`message_encoding`: Indicates the encoding type, which will be either `0` (UTF-8) or `8` (UCS-2). See [Message Length & Concatenation](https://developer.flowroute.com/docs/message-length-concatenation) for more information. <li>`timestamp`: Date and time, to the second, on which the message was sent. This field displays UTC time using an ISO 8601 format. <li>`to`: The phone number to which the message was sent. <li>`has_mms`: Boolean indicating whether or not the message includes a multimedia file. `true` indicates yes, while `false` indicates no. Currently, MMS is not supported; therefore, the default value for this field will always be `false`. <li>`amount_display`: The total cost of the message in USD. If a message was broken into multiple pieces due to concatenation, this amount will be the total amount for all message pieces. This field does _not_ display out to eight decimal points. See _Message cost_ in [Message Length & Concatenation](https://developer.flowroute.com/docs/message-length-concatenation) for more information. <li>`from`: The Flowroute SMS-enabled number from which the message was sent.<li>`callback_URL`The callback URL defined for the Flowroute number on the [Preferences > API Control](https://manage.flowroute.com/accounts/preferences/api/) page, the URL appears in this field; otherwise, the value is `null`. <li> `type`: Defines what the object is. Because SMS is the only supported object type, this field will always display `messages`. <li>`message_type`: Indicates the type of message, either `long-code` or `toll-free`. If the message was sent to or received from another phone number, this field displays `long-code`; if sent to or received from a toll-free number, this field displays `toll-free`. </li></ul>| 
+|  | <ul><li>`body`: The content of the message.<li>`direction`:  The direction of the message. For a sent message, this is `outbound`. For a received message this is`inbound`.<li>`amount_nanodollars`: The cost of the message in nanodollars. Because Flowroute uses eight decimal points of precision, the amount in nanodollars is the USD`amount_display` value multipled by 100,000,000 (one hundred million) for a corresponding whole number. <li>`message_encoding`: Indicates the encoding type, which will be either `0` (UTF-8) or `8` (UCS-2). See [Message Length & Concatenation](https://developer.flowroute.com/docs/message-length-concatenation) for more information. <li>`timestamp`: Date and time, to the second, on which the message was sent. This field displays UTC time using an ISO 8601 format. <li>`to`: The phone number to which the message was sent. <li>`has_mms`: Boolean indicating whether or not the message includes a multimedia file. `true` indicates yes, while `false` indicates no. Currently, MMS is not supported; therefore, the default value for this field will always be `false`. <li>`amount_display`: The total cost of the message in USD. If a message was broken into multiple pieces due to concatenation, this amount will be the total amount for all message pieces. This field does _not_ display out to eight decimal points. See _Message cost_ in [Message Length & Concatenation](https://developer.flowroute.com/docs/message-length-concatenation) for more information. <li>`from`: The Flowroute SMS-enabled number from which the message was sent.<li>`callback_URL`The callback URL defined for the Flowroute number on the [Preferences > API Control](https://manage.flowroute.com/accounts/preferences/api/) page, the URL appears in this field; otherwise, the value is `null`. <li>`message_type`: Indicates the type of message, either `long-code` or `toll-free`. If the message was sent to or received from another phone number, this field displays `long-code`; if sent to or received from a toll-free number, this field displays `toll-free`. </li></ul>| 
 |`type`| Defines what the object is. Because SMS is the only supported object type, this field will always display `message`.|
 |`id` | The unique record identifier of a sent message, generated from a successful `create_message`.|
                         
