@@ -18,11 +18,11 @@ You will need your Flowroute API credentials (Access Key and Secret Key). These 
 
 To create and send a message, you will need your Flowroute phone number, which should be enabled for SMS. If you do not know your phone number, or if you need to verify whether or not it is enabled for SMS, you can find it on the [DIDs](https://manage.flowroute.com/accounts/dids/) page of the Flowroute portal.
 
-## Install the required libraries
+## Install the libraries
 
 The SDK uses the **Unirest** and **jsonpickle** Python libraries, which must be installed before you can use the SDK. 
 
-> **Note:** You must be connected to the Internet in order to install the required libraries.
+> **Important:** The SDK supports only Python 2.x. Python 1.x and 3.x are not supported.
 
 1. Open a terminal session. 
 
