@@ -105,16 +105,14 @@ The following shows an example Python file, **createmsg.py**, that includes all 
 10.	From the **flowroute-messaging-python** directory in a terminal window, run the file, as shown in the following example:
 
 		python createmsg.py
-		
-	The script executes, and the message is sent. See [Response messages](#send_rsp) for possible response messages.
  
 ## APIController<a name=controller></a>
 
 The APIController contains the functions required to send outbound SMS texts and to retrieve MDRs. 
 The following sections describe the use of the APIController and its two functions:
 
-*	`create_message` 
-* 	`get_message_lookup` 
+*	[`create_message`](#create_message) 
+* 	[`get_message_lookup`](#getmessage)
 
 ###`create_message`<a name=createmessage></a>
 
@@ -132,7 +130,7 @@ Add the following lines to your Python file:
 
 | Parameter | Required | Type | Description                                                                                |
 |-----------|----------|--------------|--------------------------------------------|
-| `msg`   | True     |  string      | TThe variable name identifying the message parameters. The variable can have any name, and there is no limit on the length. The name assigned here will then be passed in the `createMessage` response in the second line. The variable is further composed of the following parameters. 
+| `msg`   | True     |  string      | TThe variable name identifying the message parameters. The variable can have any name, and there is no limit on the length. The name assigned here will then be passed in the `create_message` response in the second line. The variable is further composed of the following parameters. 
 | `To Phone Number`     | True   | string  |Target phone number for the message. It must use an _1NPANXXXXXX_ E.164 format.| 
 |`From Phone Number`|True| string| Source phone number. It must be a number registered with Flowroute, must be SMS-enabled, and must use an _1NPANXXXXXX_ E.164 format. |
 | `Message Content`| True     | string   |The message itself. An unlimited number of characters can be used, but message length rules and encoding apply. See [Message Length & Concatenation](https://developer.flowroute.com/docs/message-length-concatenation) for more information. | 
