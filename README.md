@@ -1,5 +1,5 @@
 # flowroute-messaging-python
-**flowroute-messaging-python** is a Python SDK that provides methods to send an outbound SMS from a Flowroute phone number and also to retrieve a Message Detail Records (MDR). These methods use **v2** (version 2) of the [Flowroute](https://www.flowroute.com) API.
+**flowroute-messaging-python** is a Python SDK that provides methods to send an outbound SMS from a Flowroute phone number and also to retrieve a Message Detail Record (MDR). These methods use **v2** (version 2) of the [Flowroute](https://www.flowroute.com) API.
 
 >**Note:** This SDK does not cover searching for a set of MDRs based on a date range. For searching on a date range, see [Look up a Set of Messages](https://developer.flowroute.com/docs/lookup-a-set-of-messages) on the Flowroute Developer Portal.
 
@@ -18,7 +18,7 @@ You will need your Flowroute API credentials (Access Key and Secret Key). These 
 
 To create and send a message, you will need your Flowroute phone number, which should be enabled for SMS. If you do not know your phone number, or if you need to verify whether or not it is enabled for SMS, you can find it on the [DIDs](https://manage.flowroute.com/accounts/dids/) page of the Flowroute portal.
 
-## Get a code text editor
+### Get a code text editor
 
 Steps in this SDK describe creating one or more script files that allow you to execute the methods. Script files can be created either using a terminal window shell or through using a code text editor. For example, *Sublime Text*. 
 
@@ -138,7 +138,7 @@ Add the following lines to your Python file:
 ##### Example usage
 
 	#Create and Send a Message
-	msg = Message(to="18444205700", from_="12062092844", content="Gee, nice marmot!")
+	msg = Message(to="15305557784", from_="18444205700", content="Gee, nice marmot!")
 	response = controller.create_message(msg)
 
 ##### Example response
@@ -147,10 +147,12 @@ One of the following occurs:
 
 1.	If you did *not* add `print response` to the file, no response is returned for a sent message; however, if an error is encountered an [error code and message](#errorresp) are returned.
 
-2.	If you added `print response` to the file, the identifier is returned in the response. Note it down. You can later pass this in the [`get_message_lookup`](#getmessage) method to retrieve the MDR. For example, 
+2.	If you added `print response` to the file, the recordId is returned in the response. Note it down. You can later pass this in the [`get_message_lookup`](#getmessage) method to retrieve the MDR. For example, 
 
 		{"data": {"id": "mdr1-fab29a740129404a8ca794efc1359e12'}}
-
+		
+	The `recordId` can then be passed in the [`getMessageLookup`](#getmsg) method to return details about the message.
+		
 3.	If an error is encountered, an error message is returned. The message is not sent.
 
 #####Error response<a name=errorresp></a>
@@ -169,9 +171,9 @@ The `get_message_lookup` method is used to retrieve an MDR by passing the record
 Add the following lines to your Python file before `print response`:
 
 		#Get the MDR
-		response = controller.get_message_lookup("Record Identifier")
+		response = controller.get_message_lookup("recordId")
 		
-Because you do not want to create a new message record, comment out the following lines:
+If you do not want to create a new message record at the same time as sending a message, comment out the following lines:
 
 		# msg = Message(to="To Phone Number", from_="From Phone Number", content="Message Content.")
 		# response = controller.create_message(msg)
@@ -180,10 +182,9 @@ It is composed of the following parameter:
 
 | Parameter | Required | Type  | Description                                        |
 |-----------|----------|--------|-----------------------------------------------|
-| `Record Identifier`      | True     | string  |The identifier of an existing record to retrieve. The value should include the`mdr1-`prefix. |
+| `recordID`      | True     | string  |The identifier of an existing record to retrieve. The value should include the`mdr1-`prefix. |
 
 ##### Example usage
-
 
 	# Look up the MDR
 	response = controller.get_message_lookup("mdr1-fab29a740129404a8ca794efc1359e12")
@@ -195,7 +196,7 @@ It is composed of the following parameter:
 	{
   	"data": {
       "attributes": {
-     	  "body": "This is the message content.",
+     	  "body": "Gee, nice marmot!",
      	  "direction": "outbound",
      	  "amount_nanodollars": 4000000,
     	  "message_encoding": 0,
