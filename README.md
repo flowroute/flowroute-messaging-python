@@ -67,7 +67,7 @@ Importing the SDK requires that you run commands either by creating and running 
 
 4.	Replace `Access Key` and `Secret Key` with your own Access Key and Secret Key.
 
-5.	Add the APIController methods as needed between `msg = Message(to="To Phone Number", from_="From Phone Number", content="Message Content.")` and #`Print the response`. See [APIController](#controller) for information about invoking each of the methods and their parameters.
+5.	Add the APIController methods as needed between `msg = Message(to="To Phone Number", from_="From Phone Number", content="Message Content.")` and `#Print the response`. See [APIController](#controller) for information about invoking each of the methods and their parameters.
 
 6.	Optionally, if you want the script to return the message identifier on sending, add the following line:
 
@@ -76,10 +76,17 @@ Importing the SDK requires that you run commands either by creating and running 
 	>**Important:** Throughout this SDK, `response` is used in method examples. `response` is a variable name that can be changed to a name of your own choosing. It can support an unlimited number of characters. If you choose to rename `response`, make sure that any method that references that variable name is also changed to use the new name. In the following example, `response` is changed to `blob` wherever `response` is used:
 >
 >`#Create and Send a Message`<br>
->`msg = Message(to="To Phone Number", from_="From Phone Number", content="Message Content")`
+>`...`<br>
 >`blob = controller.create_message(msg)`<br>
 >`print blob`
 
+7.	Save the file with a **.py** extension in the top-level **flowroute-messaging-python** directory. For this example, the file is named **createmsg.py**.
+
+8.	From the **flowroute-messaging-python** directory in a terminal window, run the file, as shown in the following example:
+
+		python createmsg.py
+
+### Example Python file
 
 The following shows an example Python file, **createmsg.py**, that includes all Controller methods:
 
@@ -100,11 +107,6 @@ The following shows an example Python file, **createmsg.py**, that includes all 
 		#Print the response
 		print response	
 
-9.	Save the file with a **.py** extension in the top-level **flowroute-messaging-python** directory. For this example, the file is named **createmsg.py**.
-
-10.	From the **flowroute-messaging-python** directory in a terminal window, run the file, as shown in the following example:
-
-		python createmsg.py
  
 ## APIController<a name=controller></a>
 
@@ -130,7 +132,7 @@ Add the following lines to your Python file:
 
 | Parameter | Required | Type | Description                                                                                |
 |-----------|----------|--------------|--------------------------------------------|
-| `msg`   | True     |  string      | TThe variable name identifying the message parameters. The variable can have any name, and there is no limit on the length. The name assigned here will then be passed in the `create_message` response in the second line. The variable is further composed of the following parameters. 
+| `msg`   | True     |  string      | The variable name identifying the message parameters. The variable can have any name, and there is no limit on the length. The name assigned here will then be passed in the `create_message` response in the second line. The variable is further composed of the following parameters. 
 | `To Phone Number`     | True   | string  |Target phone number for the message. It must use an _1NPANXXXXXX_ E.164 format.| 
 |`From Phone Number`|True| string| Source phone number. It must be a number registered with Flowroute, must be SMS-enabled, and must use an _1NPANXXXXXX_ E.164 format. |
 | `Message Content`| True     | string   |The message itself. An unlimited number of characters can be used, but message length rules and encoding apply. See [Message Length & Concatenation](https://developer.flowroute.com/docs/message-length-concatenation) for more information. | 
