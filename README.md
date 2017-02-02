@@ -61,9 +61,9 @@ Importing the SDK requires that you run commands either by creating and running 
 3.	Next, add the lines to pass your API credentials:
 
 		#Pass your API crredentials
-		controller = APIController(username="Access Key", password="Secret Key")   
+		controller = APIController(username="API_ACCESS_KEY", password="API_SECRET_KEY")   
 
-4.	Replace `Access Key` and `Secret Key` with your own Access Key and Secret Key.
+4.	Replace `API_ACCESS_KEY` and `API_SECRET_KEY` with your own Access Key and Secret Key.
 
 5.	Add the APIController methods as needed between `msg = Message(to="To Phone Number", from_="From Phone Number", content="Message Content.")` and `#Print the response`. See [APIController](#controller) for information about invoking each of the methods and their parameters.
 
@@ -93,7 +93,7 @@ The following shows an example Python file, **createmsg.py**, that includes all 
 		from FlowrouteMessagingLib.Controllers.APIController import APIController  
 		
 		#Pass your API credentials
-		controller = APIController(username="12345678", password="m8axLA45yds7k22448aOQ7BshaADg6vr")
+		controller = APIController(username="API_ACCESS_KEY", password="API_SECRET_KEY")
 
 		#Create and Send a Message
 		msg = Message(to="To Phone Number", from_="From Phone Number", content="Message Content")
