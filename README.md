@@ -20,8 +20,7 @@ To create and send a message, you will need your Flowroute phone number, which s
 
 ### Get a code text editor
 
-Steps in this SDK describe creating one or more script files that allow you to execute the methods. Script files can be created either using a terminal window shell or through using a code text editor. For example, *Sublime Text*. 
-
+Steps in this SDK describe creating one or more script files that allow you to execute the methods. Script files can be created either by using a terminal text editor (e.g. Vim, Emacs) or a code text editor. For example, [Sublime Text](https://sublimetext.com). 
 ## Install the libraries
 
 The SDK uses the **Unirest** and **jsonpickle** Python libraries, which must be installed before you can use the SDK. 
