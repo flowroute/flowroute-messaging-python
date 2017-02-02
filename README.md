@@ -50,8 +50,7 @@ The SDK uses the **Unirest** and **jsonpickle** Python libraries, which must be 
 
 Importing the SDK requires that you run commands either by creating and running a script or through a shell. The following instructions describe importing the SDK and running the `APIController` by creating and running a script.
 
->**Note:** A **demo_send.py** file is located at the top-level of the **flowroute-messaging-python** directory. Instead of creating a new file, you can modify **demo_send.py** and use that file. 
-
+>**Note:** A **demo_send.py** file is located at the top-level of the **flowroute-messaging-python** directory. Instead of creating a new file, you can modify **demo_send.py** and use that file. The sample code uses the pprint module, which must be [installed](https://pypi.python.org/pypi/pprintpp/0.3.0) before running the file.
 1.	Using a code text editor — for example, *Sublime Text* — to create a new file.
 
 2.	Add the following lines to the top of the file:
