@@ -1,5 +1,5 @@
 # Messaging Python SDK 
-`flowroute-messaging-python` is a Python SDK that provides methods for interacting with **v2** (version 2) of the [Flowroute](https://developer.flowroute.com/api/messaging/overview/) API. These methods can be used to accomplish the following:
+`flowroute-messaging-python` is a Python SDK that provides methods for interacting with [v2](https://developer.flowroute.com/api/messaging/overview/) of the Flowroute API. These methods can be used to accomplish the following:
 
 * Send an outbound SMS from a Flowroute phone number
 * Retrieve a Message Detail Record (MDR) by searching for a specific message record ID 
