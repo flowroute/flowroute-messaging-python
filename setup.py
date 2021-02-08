@@ -24,8 +24,7 @@ setup(
         'messaging', 'sms', 'telephony', 'sip', 'api'
     ],
     install_requires=[
-        'Unirest',
+        'requests',
         'jsonpickle',
-        'poster',
     ],
 )
