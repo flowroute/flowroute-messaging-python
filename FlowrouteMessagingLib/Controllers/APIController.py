@@ -24,17 +24,16 @@ class APIController(object):
         self.__username = username
         self.__password = password
 
-    def create_message(self, message):
-        """
-        Does a POST request to /messages.
+    def create_message(self, message) -> dict:
+        """Does a POST request to /messages.
 
-        Send a message
+        Send a message.
 
         Args:
             message (Message): Message Object to send.
 
         Returns:
-            string: Response from the API.
+            dict: Response from the API.
 
         Raises:
             APIException: When an error occurs while fetching the data from
@@ -77,20 +76,20 @@ class APIController(object):
 
         return response.body
 
-    def get_message_lookup(self, record_id):
-        """
-        Does a GET request to /messages/{record_id}.
+    def get_message_lookup(self, record_id: str) -> dict:
+        """Does a GET request to /messages/{record_id}.
 
-        Lookup a Message by MDR
+        Lookup a Message by MDR.
 
         Args:
-            record_id (string): Unique MDR ID
+            record_id (str): Unique MDR ID
 
         Returns:
-            string: Response from the API.
+            dict: Response from the API.
 
         Raises:
-            APIException: When an error occurs while fetching the data from
+            APIException:
+                When an error occurs while fetching the data from
                 the remote API. This exception includes the HTTP Response
                 code, an error message, and the HTTP body that was received in
                 the request.
