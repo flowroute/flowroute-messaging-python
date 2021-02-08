@@ -14,8 +14,10 @@ import pprint
 
 # Set up your API credentials
 # Please replace the variables in Configuration.php with your information.
-username = 'ACCESS_KEY'
-password = 'SECRET_KEY'
+username = os.getenv('ACCESS_KEY')
+password = os.getenv('SECRET_KEY')
+from_number = os.getenv('FROM_E164')
+to_number = os.getenv('TO_E164')
 
 # -- Demo script
 print "Flowroute, Inc - Demo SMS Python script.\n"
@@ -24,9 +26,7 @@ print "Flowroute, Inc - Demo SMS Python script.\n"
 controller = APIController(username=username, password=password)
 pprint.pprint(controller)
 
-# Build your message
-from_number = 'FROM_PHONE_NUMBER_E164'
-to_number = 'TO_PHONE_NUMBER_E164'
+# Build your message.
 message = Message(to=to_number, from_=from_number, content='Your cool new SMS message here!')
 
 # Send your message
