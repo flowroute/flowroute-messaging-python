@@ -15,6 +15,7 @@ Prerequisites:
 import os
 import pprint
 from time import sleep
+import sys
 
 from FlowrouteMessagingLib.Controllers.APIController import *
 from FlowrouteMessagingLib.Models.Message import *
@@ -28,6 +29,13 @@ to_number = os.getenv('TO_E164')
 
 # Print the demo script header.
 print("Flowroute, Inc - Demo SMS Python script.\n")
+if username is None or password is None or from_number is None or to_number is None:
+    print("To operate this script, please set the environment variables as follows:")
+    print("'ACCESS_KEY'=Your account tech_prefix")
+    print("'SECRET_KEY':Your API Secret Key")
+    print("'FROM_E164':Flowroute DID with leading +1")
+    print("'TO_E164':Destination DID with leading +1")
+    sys.exit(0)
 
 # Create the Controller.
 controller = APIController(username=username, password=password)
@@ -47,6 +55,11 @@ except APIException as e:
 
 # Get the MDR id from the response.
 mdr_id = response['data']['id']
+print("MDR ID: {}".format(mdr_id))
+
+# Wait for message to register.
+# Five seconds should be enough.
+sleep(3)
 
 # Retrieve the MDR record.
 try:
@@ -54,6 +67,6 @@ try:
     mdr_record = controller.get_message_lookup(mdr_id)
     pprint.pprint(mdr_record)
 except APIException as e:
-    print("Get Error - " + str(e.response_code) + '\n')
+    print("MDR Retrieval Error - {} - {}".format(str(e.response_code), e.response_body))
     pprint.pprint(e.response_body['errors'])
     exit(2)
