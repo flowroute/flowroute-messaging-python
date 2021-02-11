@@ -56,6 +56,8 @@ except APIException as e:
 # Get the MDR id from the response.
 mdr_id = response['data']['id']
 print("MDR ID: {}".format(mdr_id))
+
+# Sleep for a couple of seconds before retrieving the MDR
 sleep(3)
 
 # Retrieve the MDR record.
