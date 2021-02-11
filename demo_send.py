@@ -30,7 +30,7 @@ to_number = os.getenv('TO_E164')
 # Print the demo script header.
 print("Flowroute, Inc - Demo SMS Python script.\n")
 if username is None or password is None or from_number is None or to_number is None:
-    print("To operate this script, please set the enironment variables as follows:")
+    print("To operate this script, please set the environment variables as follows:")
     print("'ACCESS_KEY'=Your account tech_prefix")
     print("'SECRET_KEY':Your API Secret Key")
     print("'FROM_E164':Flowroute DID with leading +1")
@@ -57,7 +57,8 @@ except APIException as e:
 mdr_id = response['data']['id']
 print("MDR ID: {}".format(mdr_id))
 
-# Sleep for a couple of seconds before retrieving the MDR
+# Wait for message to register.
+# Five seconds should be enough.
 sleep(3)
 
 # Retrieve the MDR record.
