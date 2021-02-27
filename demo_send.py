@@ -58,7 +58,7 @@ mdr_id = response['data']['id']
 print("MDR ID: {}".format(mdr_id))
 
 # Wait for message to register.
-# Five seconds should be enough.
+# Three seconds should be enough.
 sleep(3)
 
 # Retrieve the MDR record.
