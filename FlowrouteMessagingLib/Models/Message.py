@@ -28,12 +28,16 @@ class Message(object):
         self.to = None
         self.mfrom = None
         self.content = None
+        self.is_mms = False
+        self.media_urls = []
 
         # Create a mapping from API property names to Model property names
         replace_names = {
             "to": "to",
             "from_": "mfrom",
             "content": "content",
+            "is_mms": "is_mms",
+            "media_urls": "media_urls"
         }
 
         # Parse all of the Key-Value arguments
@@ -61,6 +65,8 @@ class Message(object):
             "to": "to",
             "mfrom": "from",
             "content": "content",
+            "is_mms": "is_mms",
+            "media_urls": "media_urls"
         }
 
         retval = dict()
