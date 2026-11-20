@@ -5,6 +5,7 @@
     Copyright Flowroute, Inc. 2016
 """
 import requests
+from requests.auth import HTTPBasicAuth
 
 from FlowrouteMessagingLib.APIHelper import APIHelper
 from FlowrouteMessagingLib.Configuration import Configuration
@@ -24,7 +25,7 @@ class APIController(object):
         self.__username = username
         self.__password = password
 
-    def create_message(self, message) -> dict:
+    def create_message(self, message):
         """Does a POST request to /messages.
 
         Send a message.
@@ -49,21 +50,22 @@ class APIController(object):
         query_builder += "/messages"
 
         # Validate and preprocess url
-        query_url = APIHelper.clean_url(query_builder)
+        _query_url = APIHelper.clean_url(query_builder)
 
         # Prepare headers
-        headers = {
-            "user-agent": "Flowroute Messaging SDK 1.0",
-            "content-type": "application/json; charset=utf-8",
+        _headers = {
+            'accept': 'application/vnd.api+json',
+            'content-type': 'application/vnd.api+json; charset=utf-8'
         }
 
-        # Prepare and invoke the API call request to fetch the response
-        response = requests.post(
-            url=query_url,
-            headers=headers,
-            data=APIHelper.json_serialize(message),
-            auth=(self.__username, self.__password))
+        # Prepare and execute request
+        response = requests.post(_query_url,
+                                 headers=_headers,
+                                 auth=HTTPBasicAuth(self.__username, self.__password),
+                                 data=APIHelper.json_serialize(message))
+
         json_content = APIHelper.json_deserialize(response.content)
+        print("Resp: {}".format(response.json()))
 
         # Error handling using HTTP status codes
         if response.status_code == 401:
@@ -78,7 +80,7 @@ class APIController(object):
 
         return json_content
 
-    def get_message_lookup(self, record_id: str) -> dict:
+    def get_message_lookup(self, record_id):
         """Does a GET request to /messages/{record_id}.
 
         Lookup a Message by MDR.

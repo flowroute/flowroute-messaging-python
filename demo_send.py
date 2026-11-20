@@ -21,14 +21,14 @@ from FlowrouteMessagingLib.Controllers.APIController import *
 from FlowrouteMessagingLib.Models.Message import *
 
 # Set up your API credentials
-# Please replace the variables in Configuration.php with your information.
-username = os.getenv('ACCESS_KEY')
-password = os.getenv('SECRET_KEY')
-from_number = os.getenv('FROM_E164')
-to_number = os.getenv('TO_E164')
+# Please replace the variables with your information.
+username = 'YOUR-ACCESS-KEY'
+password = 'YOUR-SECRET-KEY'
+from_number = 'YOUR-MESSAGE-ENABLED-FLOWROUTE-DID'
+to_number = 'RECIPIENT-DID'
 
 # Print the demo script header.
-print("Flowroute, Inc - Demo SMS Python script.\n")
+print("Flowroute, Inc - Demo SMS / MMS Python script.\n")
 if username is None or password is None or from_number is None or to_number is None:
     print("To operate this script, please set the environment variables as follows:")
     print("'ACCESS_KEY'=Your account tech_prefix")
@@ -42,15 +42,17 @@ controller = APIController(username=username, password=password)
 pprint.pprint(controller)
 
 # Build your message.
-message = Message(to=to_number, from_=from_number, content='Your cool new SMS message here!')
+txtMessage = Message(to=to_number, from_=from_number, content='Your cool new SMS message here!',
+                     media_urls=[], is_mms=False, dlr_callback=None)
 
 # Send your message.
 try:
-    response = controller.create_message(message)
+    print("Sending SMS")
+    response = controller.create_message(txtMessage)
     pprint.pprint(response)
-except APIException as e:
-    print("Send Error - " + str(e.response_code) + '\n')
-    pprint.pprint(e.response_body['errors'])
+except Exception as e:
+    print("Send Error - " + str(e) + '\n')
+    # pprint.pprint(e.response_body)
     exit(1)        # can't continue from here
 
 # Get the MDR id from the response.
@@ -70,3 +72,27 @@ except APIException as e:
     print("MDR Retrieval Error - {} - {}".format(str(e.response_code), e.response_body))
     pprint.pprint(e.response_body['errors'])
     exit(2)
+
+# Now send an MMS message
+# -- Specify a publicly available image or media clip to send
+image_url = 'https://developer.flowroute.com/theme/images/developers_logo_article_2x.png'
+# -- If you have a server that can accept a POST message for a Delivery receipt, you can specify it here
+dlr_page = None
+# -- Specify the text message to go along with the media
+text_content = 'A Flowroute Logo'
+pictureMessage = Message(to=to_number, from_=from_number,
+                         content=text_content,
+                         media_urls=[image_url],
+                         is_mms=True,  # Required for MMS messages
+                         dlr_callback=dlr_page)
+
+# Send your message.
+try:
+    response = controller.create_message(pictureMessage)
+    pprint.pprint(response)
+except APIException as e:
+    print("Send Error - " + str(e.response_code) + '\n')
+    pprint.pprint(e.response_body['errors'])
+    exit(1)        # can't continue from here
+
+# Note: MMS messages do NOT have an MDR.
